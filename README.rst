@@ -51,9 +51,7 @@ Then, in your app's admin.py::
   # shop/admin.py
 
   from django.contrib import admin
-
   from django_admin_multiple_choice_list_filter.list_filters import MultipleChoiceListFilter
-
   from .models import Order, Statuses
 
 
@@ -75,6 +73,19 @@ Your admin area will now display the MultipleChoiceListFilter. It looks a lot li
 SimpleListFilter, except there is now an additional link next to each choice. Use these
 links to include or exclude the choice from the results. You can mix and match any
 combination you like.
+
+foreign key example:
+
+from .models import Company
+
+class CompanyListFilter(MultipleChoiceListFilter):
+        title = 'Company'
+        parameter_name= 'company__in'
+
+        def lookups(self, request, model_admin):
+                return tuple(Company.objects.all().values_list('id', 'name'))
+
+
 
 .. image:: https://raw.githubusercontent.com/ctxis/django-admin-multiple-choice-list-filter/master/django-admin-multiple-choice-list-filter.png
 
